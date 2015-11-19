@@ -11,6 +11,8 @@ request(url, function(error, response, body) {
         steve = []
         g = []
         t = []
+        test = $("ul.expanded > li").text()
+        jobs = {}
 
     result = test.split(" filter ")
     result.map(function(foo) {
@@ -22,22 +24,33 @@ request(url, function(error, response, body) {
     })
 
     steve.forEach(function(mom) {
-      if(mom.length === 2) {
-        t.push(mom)
-      } else {
+      if(mom.length === 3) {
         mom.reduce(function(prev, cur, index) {
-          if(index < 3) {
-            prev = prev + " " + cur
-            g.push(prev.replace("undefined ", "" ))
+          if(prev === undefined) {
+            g.push(cur.replace(/[{()}]/g, ''))
             if(g.length === 2) {
               t.push(g)
               g = []
             }
+          } else {
+            g.push(prev + " " + cur)
+          }
+        })
+      } else {
+        mom.reduce(function(prev, cur, index) {
+          g.push(prev)
+          g.push(cur.replace(/[{()}]/g, ''))
+          if(g.length === 2) {
+            t.push(g)
+            g = []
           }
         })
       }
     })
-    console.log(t);
+    t.forEach(function(elem) {
+      jobs[elem[0]] = elem[1]
+    })
+    console.log(jobs);
   } else {
     console.log("We've encountered an error: " + error);
   }
