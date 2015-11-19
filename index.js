@@ -1,13 +1,19 @@
 var request = require('request'),
     cheerio = require('cheerio'),
-    url = "http://www.wunderground.com/cgi-bin/findweather/getForecast?&query=" + 80302;
+    url = "http://www.builtincolorado.com/jobs#/jobs?f%5B%5D=im_job_categories%3A78",
+    job_totals = {};
 
 request(url, function(error, response, body) {
   if (!error) {
     var $ = cheerio.load(body),
-        temperature = $("[data-variable='temperature'] .wx-value").html();
-
-    console.log("It's " + temperature + " degrees Fahrenheit.");
+        result = [],
+        job = $("[facetvalue='78']").map(function(index) {
+          console.log(index);
+        });
+    //   job = $("[facetvalue='6777']").text(),
+    //   job_skill = job.substr(0, $("[facetvalue='6777']").text().length - $("[facetvalue='6777'] span").text().length)
+    // console.log(job_skill);
+    console.log(job);
   } else {
     console.log("We've encountered an error: " + error);
   }
