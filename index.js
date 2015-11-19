@@ -6,14 +6,38 @@ var request = require('request'),
 request(url, function(error, response, body) {
   if (!error) {
     var $ = cheerio.load(body),
-        result = [],
-        job = $("[facetvalue='78']").map(function(index) {
-          console.log(index);
-        });
-    //   job = $("[facetvalue='6777']").text(),
-    //   job_skill = job.substr(0, $("[facetvalue='6777']").text().length - $("[facetvalue='6777'] span").text().length)
-    // console.log(job_skill);
-    console.log(job);
+        result = []
+        almost = []
+        steve = []
+        g = []
+        t = []
+
+    result = test.split(" filter ")
+    result.map(function(foo) {
+      return almost.push(foo.substring(0, foo.indexOf('Ap')).trim())
+    })
+    almost.pop();
+    almost.map(function(bar) {
+      steve.push(bar.split(" "))
+    })
+
+    steve.forEach(function(mom) {
+      if(mom.length === 2) {
+        t.push(mom)
+      } else {
+        mom.reduce(function(prev, cur, index) {
+          if(index < 3) {
+            prev = prev + " " + cur
+            g.push(prev.replace("undefined ", "" ))
+            if(g.length === 2) {
+              t.push(g)
+              g = []
+            }
+          }
+        })
+      }
+    })
+    console.log(t);
   } else {
     console.log("We've encountered an error: " + error);
   }
