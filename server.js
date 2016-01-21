@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var path = require("path");
 
-const PORT=8080;
+const PORT = (process.env.PORT || 5000);
 
 function handleRequest(req, res) {
 
