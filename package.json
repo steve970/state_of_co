@@ -1,0 +1,25 @@
+{
+  "name": "state_of_co",
+  "version": "1.0.0",
+  "description": "State Of Colorado",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steve970/state_of_co.git"
+  },
+  "keywords": [
+    "CO",
+    "Colorado",
+    "Jobs",
+    "BuiltInColorado"
+  ],
+  "author": "Steve Hirschhorn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steve970/state_of_co/issues"
+  },
+  "homepage": "https://github.com/steve970/state_of_co#readme"
+}
