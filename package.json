@@ -21,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/steve970/state_of_co/issues"
   },
-  "homepage": "https://github.com/steve970/state_of_co#readme"
+  "homepage": "https://github.com/steve970/state_of_co#readme",
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "request": "^2.60.0"
+  }
 }
