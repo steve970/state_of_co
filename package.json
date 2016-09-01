@@ -8,13 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steve970/state_of_co.git"
+    "url": "https://github.com/steve970/state_of_co.git"
   },
   "keywords": [
     "CO",
-    "Colorado",
-    "Jobs",
-    "BuiltInColorado"
+    "Colorado"
   ],
   "author": "Steve Hirschhorn",
   "license": "ISC",
