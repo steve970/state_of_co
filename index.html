@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+  .county-border {
+    fill: none;
+    stroke: black;
+  }
+
+  .state-border {
+    fill: none;
+    stroke: black;
+  }
+  .axis text {
+    font: 10px sans-serif;
+  }
+
+  .axis line, .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  #key	{
+    position: absolute;
+    top:90px;
+    left: 50px;
+
+  }
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="choropleth.js"></script>
+<script src="index.js"></script>
+
+<!-- <!DOCTYPE html>
+<meta charset="utf-8">
+<style>
 
 /* CSS goes here. */
 
@@ -117,4 +152,4 @@ d3.json("colorado.json", function(error, co) {
 
 });
 
-</script>
+</script> -->
