@@ -1,0 +1,25 @@
+.county-border {
+  fill: none;
+  stroke: black;
+}
+
+.state-border {
+  fill: none;
+  stroke: black;
+}
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis line, .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#key	{
+  position: absolute;
+  top:90px;
+  left: 50px;
+
+}

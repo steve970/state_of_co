@@ -1,84 +1,3 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-  .county-border {
-    fill: none;
-    stroke: black;
-  }
-
-  .state-border {
-    fill: none;
-    stroke: black;
-  }
-  .axis text {
-    font: 10px sans-serif;
-  }
-
-  .axis line, .axis path {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-
-  #key	{
-    position: absolute;
-    top:90px;
-    left: 50px;
-
-  }
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="choropleth.js"></script>
-<script src="index.js"></script>
-
-<!-- <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-/* CSS goes here. */
-
-.subunit.OKLAHOMA { fill: #ddc; }
-.subunit.COLORADO { fill: #cdd; }
-.subunit.UTAH { fill: #cdc; }
-.subunit.KANSAS { fill: #dcd; }
-.subunit.NEW.MEXICO { fill: #dcd; }
-.subunit.ARIZONA { fill: #ddc; }
-.subunit.WYOMING { fill: #dcd; }
-.subunit.NEBRASKA { fill: #ddc; }
-
-
-.subunit-boundary {
-  fill: none;
-  stroke: #777;
-  stroke-dasharray: 2,2;
-  stroke-linejoin: round;
-}
-
-.subunit-boundary.NEBRASKA {
-  stroke: #aaa;
-}
-
-.subunit-label {
-  fill: #777;
-  fill-opacity: .5;
-  font-size: 20px;
-  font-weight: 300;
-  text-anchor: middle;
-}
-
-text {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 8px;
-}
-
-
-</style>
-<body>
-<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
-<script>
 
 /* JavaScript goes here. */
 
@@ -89,7 +8,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-d3.json("colorado.json", function(error, co) {
+d3.json("/data/states.json", function(error, co) {
   if (error) return console.error(error);
 
   var subunits = topojson.feature(co, co.objects.subunits);
@@ -123,7 +42,8 @@ d3.json("colorado.json", function(error, co) {
   svg.append("path")
     .datum(topojson.mesh(co, co.objects.subunits, function(a, b) { return a === b && a.id === "COLORADO"; }))
     .attr("d", path)
-    .attr("class", "subunit-boundary COLORADO");
+    .attr("class", "subunit-boundary COLORADO")
+    .attr("href", "counties.html");
 
   svg.append("path")
     .datum(topojson.feature(co, co.objects.places))
@@ -151,5 +71,3 @@ d3.json("colorado.json", function(error, co) {
     .text(function(d) { console.log(d); return d.id; });
 
 });
-
-</script> -->

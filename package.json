@@ -4,7 +4,8 @@
   "description": "State Of Colorado",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -16,12 +17,10 @@
   ],
   "author": "Steve Hirschhorn",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/steve970/state_of_co/issues"
-  },
-  "homepage": "https://github.com/steve970/state_of_co#readme",
+  "homepage": "https://steve970.github.io",
   "dependencies": {
-    "cheerio": "^0.19.0",
-    "request": "^2.60.0"
+    "body-parser": "^1.17.1",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2"
   }
 }
