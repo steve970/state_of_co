@@ -14,7 +14,7 @@ var path = d3.geo.path().projection(projection);
 
 var svg = d3.select("body").append("svg").attr("width", width).attr("height", height);
 
-d3.json("counties.json", function(error, co) {
+d3.json("/data/counties.json", function(error, co) {
   var counties = topojson.feature(co, co.objects.counties);
 
   //counties

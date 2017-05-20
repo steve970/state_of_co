@@ -19,9 +19,12 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-
 app.get('/', function(request, response) {
   response.render('pages/index.html');
+});
+
+app.get('/counties', function(request, response) {
+  response.render('pages/counties.html');
 });
 
 app.listen(app.get('port'), function() {
