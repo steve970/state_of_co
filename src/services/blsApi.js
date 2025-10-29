@@ -276,41 +276,128 @@ class BLSApiService {
         return results;
     }
 
-    // Fetch employment data for all Utah counties using bulk API
+    // Fetch employment data for Utah counties using bulk API
     async fetchUtahEmploymentData() {
-        try {
-            const counties = Object.keys(this.utahCounties);
-            const maxSeriesPerRequest = 50; // BLS API limit
-            const results = {};
+        const counties = Object.keys(this.utahCounties);
+        const maxSeriesPerRequest = 50; // BLS API limit
+        const results = {};
 
-            console.log(`🚀 Fetching employment data for ${counties.length} Utah counties using bulk API...`);
+        console.log(`🚀 Fetching employment data for ${counties.length} Utah counties using bulk API...`);
 
-            // Process counties in batches
-            for (let i = 0; i < counties.length; i += maxSeriesPerRequest) {
-                const batch = counties.slice(i, i + maxSeriesPerRequest);
-                const batchResults = await this.fetchCountyEmploymentData(batch, this.utahCounties);
-                Object.assign(results, batchResults);
-            }
-
-            console.log(`✅ Successfully fetched employment data for ${Object.keys(results).length} Utah counties`);
-            return results;
-
-        } catch (error) {
-            console.error('❌ Error fetching Utah employment data:', error);
-
-            // Return error results for all Utah counties
-            const errorResults = {};
-            Object.keys(this.utahCounties).forEach(countyName => {
-                errorResults[countyName] = {
-                    total_jobs: this.getEstimatedJobs(countyName),
-                    jobs_data_source: 'Estimated (BLS API Error)',
-                    error: error.message,
-                    lastUpdated: new Date().toISOString()
-                };
-            });
-
-            return errorResults;
+        // Split counties into chunks of 50 (BLS API limit)
+        const chunks = [];
+        for (let i = 0; i < counties.length; i += maxSeriesPerRequest) {
+            chunks.push(counties.slice(i, i + maxSeriesPerRequest));
         }
+
+        console.log(`📊 Making ${chunks.length} bulk API calls (${maxSeriesPerRequest} counties each)`);
+
+        // Process each chunk
+        for (let i = 0; i < chunks.length; i++) {
+            const chunk = chunks[i];
+            console.log(`📡 API Call ${i + 1}/${chunks.length}: Fetching ${chunk.length} counties...`);
+
+            try {
+                const seriesIds = chunk.map(countyName => {
+                    const fipsCode = this.utahCounties[countyName];
+                    if (!fipsCode) {
+                        console.warn(`FIPS code not found for Utah county: ${countyName}`);
+                        return null;
+                    }
+                    return this.generateSeriesId(fipsCode);
+                }).filter(Boolean);
+
+                if (seriesIds.length === 0) continue;
+
+                const currentYear = new Date().getFullYear();
+                const lastYear = currentYear - 1;
+
+                const requestBody = {
+                    seriesid: seriesIds,
+                    startyear: lastYear.toString(),
+                    endyear: currentYear.toString(),
+                    registrationkey: this.registrationKey
+                };
+
+                const response = await fetch(this.baseUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`BLS API request failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.status !== 'REQUEST_SUCCEEDED') {
+                    throw new Error(`BLS API error: ${data.message || 'Unknown error'}`);
+                }
+
+                // Process results for each county
+                data.Results.series.forEach(series => {
+                    // Extract FIPS code from series ID (LAUCN49035000000006 -> 49035)
+                    const fipsCode = series.seriesID.substring(5, 10);
+
+                    // Find county name by FIPS code
+                    const countyName = Object.keys(this.utahCounties).find(
+                        name => this.utahCounties[name] === fipsCode
+                    );
+
+                    if (countyName && series.data && series.data.length > 0) {
+                        const latestData = series.data[0]; // Most recent data point
+                        results[countyName] = {
+                            county: countyName,
+                            employment: parseInt(latestData.value),
+                            period: latestData.period,
+                            year: latestData.year,
+                            lastUpdated: new Date().toISOString(),
+                            seriesId: series.seriesID
+                        };
+                    } else {
+                        console.warn(`No data found for Utah county with FIPS: ${fipsCode}`);
+                        if (countyName) {
+                            results[countyName] = {
+                                county: countyName,
+                                employment: null,
+                                error: 'No data available',
+                                lastUpdated: new Date().toISOString()
+                            };
+                        }
+                    }
+                });
+
+                const successCount = Object.values(results).filter(r => r.employment !== null).length;
+                console.log(`✅ Batch ${i + 1} completed: ${successCount}/${chunk.length} successful`);
+
+                // Longer delay between API calls to avoid rate limiting
+                if (i < chunks.length - 1) {
+                    console.log('⏳ Waiting 5 seconds before next API call...');
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                }
+
+            } catch (error) {
+                console.error(`❌ Batch ${i + 1} failed:`, error);
+
+                // Add error results for this chunk
+                chunk.forEach(countyName => {
+                    results[countyName] = {
+                        county: countyName,
+                        employment: null,
+                        error: error.message,
+                        lastUpdated: new Date().toISOString()
+                    };
+                });
+            }
+        }
+
+        const totalSuccess = Object.values(results).filter(r => r.employment !== null).length;
+        console.log(`🎉 Utah bulk fetch completed: ${totalSuccess}/${counties.length} counties successful`);
+
+        return results;
     }
 
     // Get cached data or fetch fresh data
@@ -390,6 +477,16 @@ class BLSApiService {
         };
 
         return fallbackData[countyName] || Math.floor(Math.random() * 50000) + 5000;
+    }
+
+    // Alias for compatibility
+    fetchAllEmploymentData() {
+        return this.fetchAllCountiesEmployment();
+    }
+
+    // Alias for compatibility
+    getEstimatedJobs(countyName) {
+        return this.getFallbackJobCount(countyName);
     }
 }
 
