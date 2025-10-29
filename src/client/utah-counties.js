@@ -77,8 +77,7 @@ class UtahCountiesMap {
             .attr('d', this.path)
             .attr('id', d => d.id)
             .style('fill', 'white')
-            .style('stroke', '#999')
-            .style('stroke-width', 0.5)
+            .style('stroke', 'none')
             .style('cursor', 'pointer')
             .on('mouseover', (event, d) => this.handleMouseOver(event, d))
             .on('mousemove', (event, d) => this.handleMouseMove(event, d))
@@ -117,9 +116,7 @@ class UtahCountiesMap {
         const jobColor = jobs > 0 ? this.colorScale(jobs) : '#f0f0f0';
         
         d3.select(event.currentTarget)
-            .style('fill', jobColor)
-            .style('stroke', '#000')
-            .style('stroke-width', 1.5);
+            .style('fill', jobColor);
 
         // Show tooltip with formatted data
         const props = d.properties || {};
@@ -158,8 +155,7 @@ class UtahCountiesMap {
     handleMouseOut(event, d) {
         d3.select(event.currentTarget)
             .style('fill', 'white')
-            .style('stroke', '#999')
-            .style('stroke-width', 0.5);
+            .style('stroke', 'none');
 
         this.tooltip.style('opacity', 0);
     }

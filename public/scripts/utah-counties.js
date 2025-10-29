@@ -34,7 +34,7 @@ var UtahCountiesMap = class {
     const minJobs = Math.min(...jobCounts);
     const maxJobs = Math.max(...jobCounts);
     this.colorScale.domain([minJobs, maxJobs]);
-    this.svg.append("g").attr("class", "utah").selectAll("path").data(counties.features).enter().append("path").attr("d", this.path).attr("id", (d) => d.id).style("fill", "white").style("stroke", "#999").style("stroke-width", 0.5).style("cursor", "pointer").on("mouseover", (event, d) => this.handleMouseOver(event, d)).on("mousemove", (event, d) => this.handleMouseMove(event, d)).on("mouseout", (event, d) => this.handleMouseOut(event, d)).on("click", (event, d) => this.handleClick(event, d));
+    this.svg.append("g").attr("class", "utah").selectAll("path").data(counties.features).enter().append("path").attr("d", this.path).attr("id", (d) => d.id).style("fill", "white").style("stroke", "none").style("cursor", "pointer").on("mouseover", (event, d) => this.handleMouseOver(event, d)).on("mousemove", (event, d) => this.handleMouseMove(event, d)).on("mouseout", (event, d) => this.handleMouseOut(event, d)).on("click", (event, d) => this.handleClick(event, d));
     this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a !== b)).attr("class", "county-border").attr("d", this.path).style("fill", "none").style("stroke", "#34495e").style("stroke-width", 0.5).style("pointer-events", "none");
     this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a === b)).attr("class", "state-border").attr("d", this.path).style("fill", "none").style("stroke", "#2c3e50").style("stroke-width", 2).style("pointer-events", "none");
     this.renderCountyCities(counties, countiesData);
@@ -43,7 +43,7 @@ var UtahCountiesMap = class {
   handleMouseOver(event, d) {
     const jobs = d.properties?.total_jobs || 0;
     const jobColor = jobs > 0 ? this.colorScale(jobs) : "#f0f0f0";
-    d3.select(event.currentTarget).style("fill", jobColor).style("stroke", "#000").style("stroke-width", 1.5);
+    d3.select(event.currentTarget).style("fill", jobColor);
     const props = d.properties || {};
     const formatPopulation = (num) => num ? num.toLocaleString("en-US") : "N/A";
     const formatArea = (num) => num ? num.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " sq mi" : "N/A";
@@ -69,7 +69,7 @@ var UtahCountiesMap = class {
     this.tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px");
   }
   handleMouseOut(event, d) {
-    d3.select(event.currentTarget).style("fill", "white").style("stroke", "#999").style("stroke-width", 0.5);
+    d3.select(event.currentTarget).style("fill", "white").style("stroke", "none");
     this.tooltip.style("opacity", 0);
   }
   handleClick(event, d) {
