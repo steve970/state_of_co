@@ -1,11 +1,27 @@
-<html>
-    <head>
-      <title>State of CO</title>
-      <link rel="stylesheet" type="text/css" href="/styles/counties.css">
-    </head>
-  <body>
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="//d3js.org/topojson.v1.min.js"></script>
-    <script src="/scripts/counties.js" type="text/javascript"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorado Counties - Interactive Map</title>
+    <link rel="stylesheet" href="/styles/counties.css">
+    <link rel="preconnect" href="https://d3js.org">
+</head>
+<body>
+    <header>
+        <h1>Colorado Counties</h1>
+        <nav>
+            <a href="/" class="back-link">← Back to States</a>
+        </nav>
+    </header>
+    
+    <main id="map-container">
+        <div id="loading">Loading counties...</div>
+        <div id="tooltip" class="tooltip"></div>
+    </main>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <script type="module" src="/scripts/counties.js"></script>
+</body>
 </html>

@@ -1,11 +1,23 @@
 {
   "name": "state_of_co",
-  "version": "1.0.0",
-  "description": "State Of Colorado",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "State Of Colorado - Modern D3.js Visualization",
+  "main": "src/server.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "postcss src/styles/*.css --dir public/styles",
+    "build:js": "esbuild src/client/*.js --bundle --outdir=public/scripts --format=esm",
+    "lint": "eslint src/",
+    "format": "prettier --write src/",
+    "update-bls": "node scripts/update-bls-data.js",
+    "update-utah-bls": "node scripts/update-utah-bls-data.js",
+    "test-bls": "echo 'Visit http://localhost:PORT/counties-bls to test BLS integration'"
   },
   "repository": {
     "type": "git",
@@ -13,14 +25,29 @@
   },
   "keywords": [
     "CO",
-    "Colorado"
+    "Colorado",
+    "D3.js",
+    "visualization",
+    "maps"
   ],
   "author": "Steve Hirschhorn",
   "license": "ISC",
   "homepage": "https://steve970.github.io",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "ejs": "^2.5.6",
-    "express": "^4.15.2"
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "esbuild": "^0.25.11",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.0.2",
+    "postcss": "^8.4.32",
+    "postcss-cli": "^11.0.0",
+    "prettier": "^3.1.1"
   }
 }

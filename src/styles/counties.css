@@ -1,0 +1,184 @@
+/* Modern CSS for counties visualization */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
+header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #2c3e50;
+}
+
+.back-link {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid #3498db;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background: #3498db;
+  color: white;
+  transform: translateY(-1px);
+}
+
+#map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: calc(100vh - 120px);
+  position: relative;
+}
+
+#loading {
+  font-size: 1.2rem;
+  color: white;
+  text-align: center;
+}
+
+/* County styling */
+.colorado path {
+  transition: all 0.2s ease;
+}
+
+.county-border {
+  fill: none;
+  stroke: #34495e;
+  stroke-width: 0.5;
+  pointer-events: none;
+}
+
+.state-border {
+  fill: none;
+  stroke: #2c3e50;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.98);
+  color: #2c3e50;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  min-width: 320px;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(52, 73, 94, 0.1);
+  font-family: inherit;
+}
+
+.tooltip .tooltip-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tooltip .tooltip-content {
+  white-space: nowrap;
+}
+
+.tooltip .tooltip-content > div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+/* Legend styling */
+#legend {
+  opacity: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#legend text {
+  font-family: inherit;
+}
+
+#legend rect {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+  }
+  
+  #map-container {
+    padding: 1rem;
+  }
+  
+  #legend {
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+  
+  .tooltip {
+    font-size: 0.8rem;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .back-link {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  #legend {
+    transform: scale(0.7);
+  }
+}
