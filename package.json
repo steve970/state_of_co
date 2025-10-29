@@ -17,6 +17,7 @@
     "format": "prettier --write src/",
     "update-bls": "node scripts/update-bls-data.js",
     "update-utah-bls": "node scripts/update-utah-bls-data.js",
+    "update-all-data": "node -e \"import('./src/services/dataUpdater.js').then(m => new m.DataUpdater().updateAllData())\"",
     "test-bls": "echo 'Visit http://localhost:PORT/counties-bls to test BLS integration'"
   },
   "repository": {

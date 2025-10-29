@@ -10,15 +10,15 @@
 <body>
     <header>
         <h1>Utah Counties</h1>
-        <p>Interactive employment and demographic data visualization</p>
+        <nav>
+            <a href="/" class="back-link">← Back to States</a>
+        </nav>
     </header>
-
-    <div id="map-container">
-        <div id="loading">Loading Utah counties data...</div>
-    </div>
-
-    <!-- Tooltip container -->
-    <div id="tooltip"></div>
+    
+    <main id="map-container">
+        <div id="loading">Loading counties...</div>
+        <div id="tooltip" class="tooltip"></div>
+    </main>
 
     <!-- D3.js and TopoJSON -->
     <script src="https://d3js.org/d3.v7.min.js"></script>

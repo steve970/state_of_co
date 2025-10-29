@@ -112,7 +112,13 @@ header p {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.subunit-label.UTAH,
+.subunit-label.UTAH {
+  fill: white;
+  font-weight: 600;
+  font-size: 20px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 .subunit-label[class*="NEW"],
 .subunit-label[class*="MEXICO"] {
   fill: #2c3e50;
@@ -121,8 +127,9 @@ header p {
 
 .place-label {
   font-size: 12px;
-  fill: #34495e;
-  font-weight: 400;
+  fill: white;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 text {
