@@ -84,17 +84,46 @@ class UtahCountiesMap {
             .on('mouseout', (event, d) => this.handleMouseOut(event, d))
             .on('click', (event, d) => this.handleClick(event, d));
 
-        // County borders - only render internal boundaries once
+        // County borders - render internal boundaries with filtering for problematic counties
         this.svg.append('path')
-            .datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a !== b))
+            .datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => {
+                // Filter out boundaries between Davis (id=3) and Weber (id=7) counties to prevent thick borders
+                if ((a.id === 3 && b.id === 7) || (a.id === 7 && b.id === 3)) {
+                    return false;
+                }
+                return a !== b;
+            }))
             .attr('class', 'county-border')
             .attr('d', this.path)
             .style('fill', 'none')
             .style('stroke', '#34495e')
             .style('stroke-width', 0.5)
+            .style('stroke-linejoin', 'round')
+            .style('stroke-linecap', 'round')
+            .style('vector-effect', 'non-scaling-stroke')
             .style('pointer-events', 'none');
 
-        // State border
+        // Add a single clean border between Davis and Weber counties
+        const davisCounty = counties.features.find(d => d.id === 3);
+        const weberCounty = counties.features.find(d => d.id === 7);
+        
+        if (davisCounty && weberCounty) {
+            this.svg.append('path')
+                .datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => {
+                    return (a.id === 3 && b.id === 7) || (a.id === 7 && b.id === 3);
+                }))
+                .attr('class', 'davis-weber-border')
+                .attr('d', this.path)
+                .style('fill', 'none')
+                .style('stroke', '#34495e')
+                .style('stroke-width', 0.5)
+                .style('stroke-linejoin', 'round')
+                .style('stroke-linecap', 'round')
+                .style('vector-effect', 'non-scaling-stroke')
+                .style('pointer-events', 'none');
+        }
+
+        // State border - external boundary only
         this.svg.append('path')
             .datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a === b))
             .attr('class', 'state-border')
@@ -102,6 +131,9 @@ class UtahCountiesMap {
             .style('fill', 'none')
             .style('stroke', '#2c3e50')
             .style('stroke-width', 2)
+            .style('stroke-linejoin', 'round')
+            .style('stroke-linecap', 'round')
+            .style('vector-effect', 'non-scaling-stroke')
             .style('pointer-events', 'none');
 
         // Add city dots for counties that have coordinates

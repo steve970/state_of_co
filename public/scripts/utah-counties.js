@@ -35,8 +35,20 @@ var UtahCountiesMap = class {
     const maxJobs = Math.max(...jobCounts);
     this.colorScale.domain([minJobs, maxJobs]);
     this.svg.append("g").attr("class", "utah").selectAll("path").data(counties.features).enter().append("path").attr("d", this.path).attr("id", (d) => d.id).style("fill", "white").style("stroke", "none").style("cursor", "pointer").on("mouseover", (event, d) => this.handleMouseOver(event, d)).on("mousemove", (event, d) => this.handleMouseMove(event, d)).on("mouseout", (event, d) => this.handleMouseOut(event, d)).on("click", (event, d) => this.handleClick(event, d));
-    this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a !== b)).attr("class", "county-border").attr("d", this.path).style("fill", "none").style("stroke", "#34495e").style("stroke-width", 0.5).style("pointer-events", "none");
-    this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a === b)).attr("class", "state-border").attr("d", this.path).style("fill", "none").style("stroke", "#2c3e50").style("stroke-width", 2).style("pointer-events", "none");
+    this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => {
+      if (a.id === 3 && b.id === 7 || a.id === 7 && b.id === 3) {
+        return false;
+      }
+      return a !== b;
+    })).attr("class", "county-border").attr("d", this.path).style("fill", "none").style("stroke", "#34495e").style("stroke-width", 0.5).style("stroke-linejoin", "round").style("stroke-linecap", "round").style("vector-effect", "non-scaling-stroke").style("pointer-events", "none");
+    const davisCounty = counties.features.find((d) => d.id === 3);
+    const weberCounty = counties.features.find((d) => d.id === 7);
+    if (davisCounty && weberCounty) {
+      this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => {
+        return a.id === 3 && b.id === 7 || a.id === 7 && b.id === 3;
+      })).attr("class", "davis-weber-border").attr("d", this.path).style("fill", "none").style("stroke", "#34495e").style("stroke-width", 0.5).style("stroke-linejoin", "round").style("stroke-linecap", "round").style("vector-effect", "non-scaling-stroke").style("pointer-events", "none");
+    }
+    this.svg.append("path").datum(topojson.mesh(countiesData, countiesData.objects.counties, (a, b) => a === b)).attr("class", "state-border").attr("d", this.path).style("fill", "none").style("stroke", "#2c3e50").style("stroke-width", 2).style("stroke-linejoin", "round").style("stroke-linecap", "round").style("vector-effect", "non-scaling-stroke").style("pointer-events", "none");
     this.renderCountyCities(counties, countiesData);
     this.addLegend();
   }
