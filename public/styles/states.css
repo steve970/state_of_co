@@ -84,18 +84,6 @@ header p {
 .subunit.ARIZONA { fill: #f8f9fa; }
 .subunit.WYOMING { fill: #f8f9fa; }
 .subunit.NEBRASKA { fill: #f8f9fa; }
-.subunit.NEVADA { fill: #f8f9fa; }
-.subunit.CALIFORNIA { 
-  fill: #e67e22; 
-  transition: all 0.3s ease;
-  stroke: #1a365d;
-  stroke-width: 2;
-}
-.subunit.CALIFORNIA:hover {
-  fill: #f39c12;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-  stroke-width: 2.5;
-}
 
 .subunit-boundary {
   fill: none;
@@ -125,13 +113,6 @@ header p {
 }
 
 .subunit-label.UTAH {
-  fill: white;
-  font-weight: 600;
-  font-size: 20px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.subunit-label.CALIFORNIA {
   fill: white;
   font-weight: 600;
   font-size: 20px;
