@@ -70,14 +70,20 @@ class StatesMap {
         } else if (d.id === 'UTAH') {
           window.location.href = '/utah-counties';
         }
+        // California and Nevada are displayed but not clickable yet
       })
       .on('mouseover', function(event, d) {
         if (d.id === 'COLORADO' || d.id === 'UTAH') {
           d3.select(this).style('opacity', 0.8);
+        } else if (d.id === 'CALIFORNIA') {
+          d3.select(this).style('opacity', 0.9);
         }
+        // Nevada remains non-interactive (white)
       })
       .on('mouseout', function(event, d) {
         if (d.id === 'COLORADO' || d.id === 'UTAH') {
+          d3.select(this).style('opacity', 1);
+        } else if (d.id === 'CALIFORNIA') {
           d3.select(this).style('opacity', 1);
         }
       });
@@ -119,6 +125,7 @@ class StatesMap {
         } else if (d.id === 'UTAH') {
           window.location.href = '/utah-counties';
         }
+        // California and Nevada labels are displayed but not clickable yet
       });
   }
 

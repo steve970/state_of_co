@@ -37,9 +37,13 @@ var StatesMap = class {
     }).on("mouseover", function(event, d) {
       if (d.id === "COLORADO" || d.id === "UTAH") {
         d3.select(this).style("opacity", 0.8);
+      } else if (d.id === "CALIFORNIA") {
+        d3.select(this).style("opacity", 0.9);
       }
     }).on("mouseout", function(event, d) {
       if (d.id === "COLORADO" || d.id === "UTAH") {
+        d3.select(this).style("opacity", 1);
+      } else if (d.id === "CALIFORNIA") {
         d3.select(this).style("opacity", 1);
       }
     });
